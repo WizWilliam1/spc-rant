@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.rectangle {
+  height: 50px;
+  width: 100%;
+  background-color: #8B2224;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  z-index: 1;
+  padding-left: 10px;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  background-color: #807d7d;
+  border-radius: 50%;
+  background-image: url('images/spc-ccs-logo2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.spc_rant {
+  font-size: 60px;
+  font-family: 'Akaya Telivigala', sans-serif;
+  color: #000000;
+  flex-grow: 1;
+}
+
+.home {
+  height: 35px;
+  width: 35px;
+  position: fixed;
+  top: 8px;
+  right: 5px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#dashboard-container{
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 5em;
+  text-align: center;
+  padding: 2em;
+}
+
+#user-profile {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 70%; /* adjust this value as needed */
+}
+
+#profile-details {
+  display: flex;
+  flex-direction: column;  /* aligns items vertically */
+  justify-content: space-between;  /* space items evenly on the main axis */
+  align-items: start;  /* align items along the cross axis to start */
+  height: 100%;  /* set height to 100% to spread items evenly across full height of container */
+}
+
+#profile-details h1,
+#profile-details h5,
+#profile-details h6 {
+  margin: 0 10px;  /* Add horizontal margins to each h1, h5, h6 element */
+}
+
+#profile-icon {
+  border-radius: 50%; /* this makes the profile icon round */
+  width: 100px;
+  height: 100px;
+}
+
+#post{
+  margin-top: 2em;
+  padding: 1em;
+  border: 2px solid black;
+}
+#join-date::before {
+    content: "\f073"; /* This is the unicode for the calendar icon (fa-calendar in Font Awesome) */
+    font-family: FontAwesome;
+    margin-right: 5px; /* Spacing between the icon and the text */
+    font-size: 0.8em; /* Control the size of icon */
+}
+#random-link a {
+    text-decoration: none; /* remove underline of link */
+    color: black; /* change link color to black */
+}
+#random-link a:hover {
+    color: brown; /* change link color to red when hovered over */
+}
+
+#random-link a:active {
+    color: darkred; /* change link color to dark red when clicked */
+}
+#random-link a::before {
+    content: "\f0c1"; /* This is the unicode for the link icon (fa-link in Font Awesome) */
+    font-family: FontAwesome;
+    margin-right: 5px; /* Spacing between the icon and the text */
+    font-size: 0.8em; /* Control the size of icon */
+}
+.logout {
+  height: 35px;
+  width: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.dark-mode {
+  background-color: #333; /* Set a dark background color */
+  color: #fff; /* Set light text color */
+}

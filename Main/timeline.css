@@ -1,0 +1,290 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+ }
+ 
+ .timeline {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+ }
+ 
+ /* The Modal (background) */
+ .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: false; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.6); /* Darker black w/ opacity */
+ }
+ 
+ /* Modal Content */
+ .modal-content {
+    background-color: #333; /* Darker gray */
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+ }
+ 
+ /* Modal Text */
+ .modal-content h2 {
+    font-size: 24px;
+    color: #fff; /* White */
+    margin-bottom: 20px;
+ }
+ 
+ /* Form Elements */
+ .modal-content label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #fff; /* White */
+ }
+ 
+ .modal-content input[type="text"],
+ .modal-content textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+ }
+ 
+ /* The Close Button */
+ .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+ }
+ 
+ .close:hover,
+ .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+ }
+ 
+ /* Form Submit Button */
+ .modal-content input[type="button"] {
+    padding: 10px 20px;
+    background-color: #333; /* Darker red */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+ }
+ 
+ .modal-content input[type="button"]:hover {
+    background-color: #222; /* Even darker red */
+ } 
+ .post-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ }
+ 
+ .post {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .post h2 {
+    margin-bottom: 10px;
+ }
+ 
+ .post p {
+    margin-bottom: 20px;
+ }
+ 
+ .post-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+ }
+ 
+ .user-info {
+    text-align: left;
+    margin-bottom: 10px;
+    font-weight: bold;
+ }
+ 
+ .time-posted {
+    font-size: 12px;
+    color: #777;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+ }
+ 
+ .comments-section {
+    margin-top: 20px;
+ }
+ 
+ .comment-box {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+ }
+ 
+ .post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+ }
+ 
+ .heart-container,
+ .heart-count-container {
+    display: flex;
+ }
+ 
+ .heart-count-container {
+    margin-left: auto;
+ }
+ 
+ .heart-button {
+    color: red;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
+ }
+ 
+ .heart-button:hover {
+    color: darkred;
+ }
+ 
+ .heart-count {
+    margin-left: 10px;
+ }
+ 
+ hr {
+    border: none;
+    height: 1px;
+    color: #ccc;
+    background-color: #ccc;
+    margin: 20px 0;
+ }
+ 
+ .create-post {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+ }
+ 
+ .create-post .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+ }
+ 
+ .create-post .user-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+ }
+ 
+ .create-post textarea {
+    width: calc(100% - 20px);
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    resize: none;
+ }
+ 
+ .create-post .post-button {
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 8px 12px;
+    cursor: pointer;
+ }
+ 
+ .create-post .post-button:hover {
+    background-color: #1568d8;
+ }
+ 
+ .create-post .post-button:focus {
+    outline: none;
+ }
+ 
+ .emoji-container {
+    margin-top: 10px;
+    text-align: center;
+ }
+ 
+ .emoji {
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+ }
+ 
+ .heart-button,
+ .comment-button {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    flex-grow: 1;
+    margin: 0 5px;
+ }
+ 
+ .heart-button:focus,
+ .comment-button:focus {
+    outline: none;
+ }
+ 
+ .rant-now-button {
+    text-align: center;
+    margin: 20px 0;
+ }
+ 
+ .rant-now-button button {
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+ }
+ 
+ .rant-now-button button:hover {
+    background-color: #1568d8;
+ }
+ 
