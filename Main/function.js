@@ -48,8 +48,6 @@ function applySavedTheme() {
 // Function to update text color based on dark mode
 function updateTextColor(isDarkMode) {
    var spcRantElement = document.querySelector(".spc_rant");
-   var postTitles = document.querySelectorAll(".post h2");
-   var postContents = document.querySelectorAll(".post p");
 
    if (isDarkMode) {
        // Set the text color to white when dark mode is active

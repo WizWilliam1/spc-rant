@@ -111,10 +111,12 @@ body {
  
  .post h2 {
     margin-bottom: 10px;
+    color: black;
  }
  
  .post p {
     margin-bottom: 20px;
+    color: black;
  }
  
  .post-info {

@@ -261,38 +261,33 @@ $conn->close();
            <p><?= nl2br(htmlspecialchars($post["CONTENT"])) ?></p>
            <hr>
 
-           <!-- Display the comments section -->
-           <div class="comments-section">
-               <?php foreach ($post["comments"] as $comment): ?>
-                  <div class="comment">
-                      <strong><?= htmlspecialchars(
-                          $comment["user"]
-                      ) ?>:</strong>
-                      <?= htmlspecialchars($comment["comment"]) ?>
-                  </div>
-               <?php endforeach; ?>
-               <!-- New code: Comment text box -->
-               <div class="comment-box" onclick="showCommentBox(<?= $post[
-                   "id"
-               ] ?>)">
-                  Write a comment...
-               </div>
-               <hr>
-               <!-- Like and Comment Icons -->
-               <div class="post-actions">
-                  <div class="heart-container">
-                      <button class="heart-button" onclick="heartPost(this, <?= $post[
-                          "id"
-                      ] ?>)">&#10084;</button>
-                  </div>
-                  <div class="heart-count-container">
-                      <span class="heart-count">0</span>
-                  </div>
-               </div>
-           </div>
+<!-- Display the comments section -->
+<div class="comments-section">
+   <?php foreach ($post["comments"] as $comment): ?>
+       <div class="comment">
+           <strong><?= htmlspecialchars($comment["user"]) ?>:</strong>
+           <div class="comment-content"><?= htmlspecialchars($comment["comment"]) ?></div>
        </div>
    <?php endforeach; ?>
+   <!-- New code: Comment text box -->
+   <div class="comment-box" onclick="showCommentBox(<?= $post["id"] ?>)">
+       Write a comment...
+   </div>
+   <hr>
+   <!-- Like and Comment Icons -->
+   <div class="post-actions">
+       <div class="heart-container">
+           <button class="heart-button" onclick="heartPost(this, <?= $post["id"] ?>)">&#10084;</button>
+       </div>
+       <div class="heart-count-container">
+           <span class="heart-count">0</span>
+       </div>
+   </div>
 </div>
+</div>
+<?php endforeach; ?>
+</div>
+
 
 <script>
    function showModal() {
