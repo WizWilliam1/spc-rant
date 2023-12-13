@@ -22,6 +22,7 @@ if (isset($_SESSION['Username'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="function.js"></script>
+    <script>window.onload = applySavedTheme;</script>
     <style>
     * {
         margin: 0;
@@ -54,7 +55,7 @@ if (isset($_SESSION['Username'])) {
             <button class="btn mt-3">Sign In</button>
         </form>
         <div class="text-center fs-6">
-            <a href="#">Forget password?</a> or <a href="signup.php">Sign up</a>
+            <a href="forgot_password.php">Forget password?</a> or <a href="signup.php">Sign up</a>
         </div>
     </div>
 </body>

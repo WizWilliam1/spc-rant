@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     <link rel="stylesheet" href="Signup.css">
     <script src="function.js"></script>
+    <script>window.onload = applySavedTheme;</script>
     <style>
     * {
         margin: 0;
@@ -24,7 +25,7 @@
 <div class="rectangle"></div>
     <div class="wrapper">
         <div class="logo">
-            <img src="spc-ccs-logo2.png" alt="">
+            <img src="images/spc-ccs-logo2.png" alt="">
         </div>
         <div class="text-center mt-4 name">
             Signup Form
@@ -52,5 +53,9 @@
             <a>Already have account?</a> <a href="login.php">Login In</a>
         </div>
     </div>
+<script>
+    // Call applySavedTheme function on page load
+    document.addEventListener("DOMContentLoaded", applySavedTheme);
+</script>
 </body>
 </html>

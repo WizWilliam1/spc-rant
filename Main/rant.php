@@ -2,6 +2,9 @@
 // Include the database connection file
 include "database.php";
 
+// Set the time zone to Asia/Manila
+date_default_timezone_set('Asia/Manila');
+
 // Start a new session if one doesn't exist
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -26,7 +29,7 @@ function time_elapsed_string($datetime, $full = false)
         $diff->i == 0 &&
         $diff->s < 60
     ) {
-        return "just now";
+        return "Just Now";
     }
 
     // Calculate the number of weeks and adjust the number of days accordingly
@@ -60,60 +63,6 @@ function time_elapsed_string($datetime, $full = false)
 
     // Return the formatted time difference
     return $string ? implode(", ", $string) . " ago" : "just now";
-}
-
-// Fetch posts from the database
-$sql =
-    "SELECT TITLE, CONTENT, created_at as timestamp FROM posts ORDER BY id DESC"; // Alias 'created_at' as 'timestamp'
-$result = $conn->query($sql);
-
-// Initialize an array to store the posts
-$posts = [];
-// Initialize a counter for anonymous users
-$anonymousCounter = isset($_SESSION["anonymousCounter"])
-    ? $_SESSION["anonymousCounter"]
-    : 0;
-
-// If there are posts, fetch them into the array
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        // Add the time elapsed since the post was created
-        $row["timeAgo"] = time_elapsed_string($row["timestamp"]);
-        // Add the username or an anonymous identifier
-        $row["user"] = isset($_SESSION["Username"])
-            ? htmlspecialchars($_SESSION["Username"])
-            : "Anonymous#" . str_pad($anonymousCounter, 3, "0", STR_PAD_LEFT);
-        $posts[] = $row;
-        $anonymousCounter++;
-    }
-}
-
-// If the request method is POST, process the post submission
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Get the post title and content from the POST data
-    $TITLE = $_POST["TITLE"];
-    $CONTENT = $_POST["CONTENT"];
-
-    // Get the user ID from the session, or use 0 if not logged in
-    $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : 0;
-
-    // Prepare a statement to insert the post into the database
-    $stmt = $conn->prepare(
-        "INSERT INTO posts (TITLE, CONTENT, user_id) VALUES (?, ?, ?)"
-    );
-    if (!$stmt) {
-        die("Error preparing statement: " . $conn->error);
-    }
-
-    // Bind the post data to the statement and execute it
-    $stmt->bind_param("ssi", $TITLE, $CONTENT, $user_id);
-    if (!$stmt->execute()) {
-        die("Error executing statement: " . $stmt->error);
-    }
-
-    // Display a success message and redirect to the rant page
-    $successMessage = "Post created successfully!";
-    echo "<script>alert('$successMessage'); window.location.href = 'rant.php';</script>";
 }
 
 // Fetch posts with comments from the database
@@ -246,48 +195,47 @@ $conn->close();
 
 <!-- Display the posts -->
 <div class="post-container">
-   <?php foreach ($posts as $post): ?>
-       <div class="post">
-           <div class="post-info">
-               <div class="user-info">
-                  <?= $post["user"] ?>
-               </div>
-               <div class="time-posted">
-                  <?= $post["timeAgo"] ?>
-               </div>
-           </div>
-           
-           <h2><?= htmlspecialchars($post["TITLE"]) ?></h2>
-           <p><?= nl2br(htmlspecialchars($post["CONTENT"])) ?></p>
-           <hr>
+    <?php foreach ($posts as $post): ?>
+        <div class="post">
+            <div class="post-info">
+                <div class="user-info">
+                    <?= $post["user"] ?>
+                </div>
+                <div class="time-posted">
+                    <?= $post["timeAgo"] ?> <!-- Display time elapsed -->
+                </div>
+            </div>
 
-<!-- Display the comments section -->
-<div class="comments-section">
-   <?php foreach ($post["comments"] as $comment): ?>
-       <div class="comment">
-           <strong><?= htmlspecialchars($comment["user"]) ?>:</strong>
-           <div class="comment-content"><?= htmlspecialchars($comment["comment"]) ?></div>
-       </div>
-   <?php endforeach; ?>
-   <!-- New code: Comment text box -->
-   <div class="comment-box" onclick="showCommentBox(<?= $post["id"] ?>)">
-       Write a comment...
-   </div>
-   <hr>
-   <!-- Like and Comment Icons -->
-   <div class="post-actions">
-       <div class="heart-container">
-           <button class="heart-button" onclick="heartPost(this, <?= $post["id"] ?>)">&#10084;</button>
-       </div>
-       <div class="heart-count-container">
-           <span class="heart-count">0</span>
-       </div>
-   </div>
-</div>
-</div>
-<?php endforeach; ?>
-</div>
+            <h2><?= htmlspecialchars($post["TITLE"]) ?></h2>
+            <p><?= nl2br(htmlspecialchars($post["CONTENT"])) ?></p>
+            <hr>
 
+            <!-- Display the comments section -->
+            <div class="comments-section">
+                <?php foreach ($post["comments"] as $comment): ?>
+                    <div class="comment">
+                        <strong><?= htmlspecialchars($comment["user"]) ?>:</strong>
+                        <div class="comment-content"><?= htmlspecialchars($comment["comment"]) ?></div>
+                    </div>
+                <?php endforeach; ?>
+                <!-- New code: Comment text box -->
+                <div class="comment-box" onclick="showCommentBox(<?= $post["id"] ?>)">
+                    Write a comment...
+                </div>
+                <hr>
+                <!-- Like and Comment Icons -->
+                <div class="post-actions">
+                    <div class="heart-container">
+                        <button class="heart-button" onclick="heartPost(this, <?= $post["id"] ?>)">&#10084;</button>
+                    </div>
+                    <div class="heart-count-container">
+                        <span class="heart-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
 
 <script>
    function showModal() {
