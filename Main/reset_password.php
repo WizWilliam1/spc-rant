@@ -1,7 +1,15 @@
 <?php
 // Include the database connection file
 include "database.php";
-session_start();
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Check if the connection is successful
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 // If the request method is POST, process the password reset
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -11,21 +19,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Check if the new password and confirm password match
     if ($new_password === $confirm_password) {
-        // Update the password in the database based on User_ID
-        $query = "UPDATE accounts SET Password = ? WHERE User_ID = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("si", $new_password, $_SESSION["User_ID"]);
-        $stmt->execute();
+        // Hash the new password
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
-        // Redirect to the login page
-        header("Location: login.php");
-        exit;
+        // Use the Username from the session directly (assuming it's safe)
+        $username = $_SESSION["Username"];
+
+        // Update the password in the database based on Username
+        $query = "UPDATE `accounts` SET `Password` = ? WHERE `Username` = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $hashed_password, $username);
+
+        // Execute the query
+        if ($stmt->execute()) {
+            // Success
+            header("Location: login.php");
+            exit;
+        } else {
+            // Error handling
+            echo "Error updating password: " . $stmt->error;
+        }
     } else {
         echo "The new password and confirm password do not match.";
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html>

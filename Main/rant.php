@@ -1,5 +1,4 @@
 <?php
-// Include the database connection file
 include "database.php";
 
 // Set the time zone to Asia/Manila
@@ -7,95 +6,91 @@ date_default_timezone_set('Asia/Manila');
 
 // Start a new session if one doesn't exist
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+   session_start();
 }
 
 // Function to calculate the time elapsed since a given datetime
 function time_elapsed_string($datetime, $full = false)
 {
-    // Current time
-    $now = new DateTime();
-    // The time in the past
-    $ago = new DateTime($datetime);
-    // The difference between the two times
-    $diff = $now->diff($ago);
+   // Current time
+   $now = new DateTime();
+   // The time in the past
+   $ago = new DateTime($datetime);
+   // The difference between the two times
+   $diff = $now->diff($ago);
 
-    // If the difference is less than a minute, return 'just now'
-    if (
-        $diff->y == 0 &&
-        $diff->m == 0 &&
-        $diff->d == 0 &&
-        $diff->h == 0 &&
-        $diff->i == 0 &&
-        $diff->s < 60
-    ) {
-        return "Just Now";
-    }
+   // If the difference is less than a minute, return 'just now'
+   if (
+       $diff->y == 0 &&
+       $diff->m == 0 &&
+       $diff->d == 0 &&
+       $diff->h == 0 &&
+       $diff->i == 0 &&
+       $diff->s < 60
+   ) {
+       return "Just Now";
+   }
 
-    // Calculate the number of weeks and adjust the number of days accordingly
-    $diff->w = floor($diff->d / 7);
-    $diff->d -= $diff->w * 7;
+   // Calculate the number of weeks and adjust the number of days accordingly
+   $diff->w = floor($diff->d / 7);
+   $diff->d -= $diff->w * 7;
 
-    // The string representations of each time unit
-    $string = [
-        "y" => "year",
-        "m" => "month",
-        "w" => "week",
-        "d" => "day",
-        "h" => "hour",
-        "i" => "minute",
-        "s" => "second",
-    ];
+   // The string representations of each time unit
+   $string = [
+       "y" => "year",
+       "m" => "month",
+       "w" => "week",
+       "d" => "day",
+       "h" => "hour",
+       "i" => "minute",
+       "s" => "second",
+   ];
 
-    // Iterate over each time unit and format it for display
-    foreach ($string as $k => &$v) {
-        if ($diff->$k) {
-            $v = $diff->$k . " " . ($diff->$k > 1 ? $v . "s" : $v);
-        } else {
-            unset($string[$k]);
-        }
-    }
+   // Iterate over each time unit and format it for display
+   foreach ($string as $k => &$v) {
+       if ($diff->$k) {
+           $v = $diff->$k . " " . ($diff->$k > 1 ? $v . "s" : $v);
+       } else {
+           unset($string[$k]);
+       }
+   }
 
-    // If not displaying the full time difference, only use the largest unit
-    if (!$full) {
-        $string = array_slice($string, 0, 1);
-    }
+   // If not displaying the full time difference, only use the largest unit
+   if (!$full) {
+       $string = array_slice($string, 0, 1);
+   }
 
-    // Return the formatted time difference
-    return $string ? implode(", ", $string) . " ago" : "just now";
+   // Return the formatted time difference
+   return $string ? implode(", ", $string) . " ago" : "just now";
 }
 
 // Fetch posts with comments from the database
 $sql = "SELECT posts.id, TITLE, CONTENT, posts.created_at as timestamp, comments.comment as comment, comments.timestamp as comment_timestamp
-     FROM posts
-     LEFT JOIN comments ON posts.id = comments.post_id
-     ORDER BY posts.id DESC";
+    FROM posts
+    LEFT JOIN comments ON posts.id = comments.post_id
+    ORDER BY posts.id DESC";
 $result = $conn->query($sql);
 
 // Initialize an array to store the posts
 $posts = [];
-// Initialize a counter for anonymous users
-$anonymousCounter = isset($_SESSION["anonymousCounter"])
-    ? $_SESSION["anonymousCounter"]
-    : 0;
 
 // If there are posts, fetch them into the array
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        // Get the post ID
-        $postId = $row["id"];
-        // Add the time elapsed since the post was created
-        $row["timeAgo"] = time_elapsed_string($row["timestamp"]);
-        // Add the username or an anonymous identifier
-        $row["user"] = isset($_SESSION["Username"])
-            ? htmlspecialchars($_SESSION["Username"])
-            : "Anonymous#" . str_pad($anonymousCounter, 3, "0", STR_PAD_LEFT);
-        // Initialize an array to store the comments
-        $row["comments"] = [];
-        // Add the post to the posts array
-        $posts[$postId] = $row;
-        $anonymousCounter++;
-    }
+   while ($row = $result->fetch_assoc()) {
+       // Get the post ID
+       $postId = $row["id"];
+       // Add the time elapsed since the post was created
+       $row["timeAgo"] = time_elapsed_string($row["timestamp"]);
+       // Add the username or an anonymous identifier
+       $row["user"] = isset($_SESSION["Username"])
+           ? htmlspecialchars($_SESSION["Username"])
+       : "Anonymous";
+
+       // Initialize an array to store the comments
+       $row["comments"] = [];
+       // Add the post to the posts array
+       $posts[$postId] = $row;
+   }
 }
 
 // Fetch comments for each post from the database
@@ -107,13 +102,12 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         // Get the post ID
         $postId = $row["post_id"];
-        // Add the username or an anonymous identifier
-        $row["user"] = isset($_SESSION["Username"])
-            ? htmlspecialchars($_SESSION["Username"])
-            : "Anonymous#" . str_pad($anonymousCounter, 3, "0", STR_PAD_LEFT);
+
+        // Add the username or an anonymous identifier to the "user" key
+        $row["user"] = isset($_SESSION["Username"]) ? htmlspecialchars($_SESSION["Username"]) : "Anonymous";
+
         // Add the comment to the post
         $posts[$postId]["comments"][] = $row;
-        $anonymousCounter++;
     }
 }
 
@@ -180,8 +174,14 @@ $conn->close();
             </div>
         </div>
         <!-- Post CONTENT -->
+        <?php 
+            if(isset($_SESSION["Username"])) {
+                echo "Hello World";
+            }
+        ?>
         <div class="post-CONTENT" style="text-align: center;">
             <form action="post_rant.php" method="POST" onsubmit="return postRantIfFilled();">
+                <input type="hidden" name="user_id" value="user_id"
                 <input type="text" id="TITLE" name="TITLE" placeholder="Enter a TITLE" style="width: 95%; margin-bottom: 10px;">
                 <textarea id="CONTENT" name="CONTENT" placeholder="What's on your mind?"></textarea>
                 <!-- Post Button -->
@@ -199,34 +199,34 @@ $conn->close();
         <div class="post">
             <div class="post-info">
                 <div class="user-info">
-                    <?= $post["user"] ?>
+                    <?= isset($post["user"]) ? $post["user"] : "Anonymous" ?>
                 </div>
                 <div class="time-posted">
-                    <?= $post["timeAgo"] ?> <!-- Display time elapsed -->
+                    <?= isset($post["timeAgo"]) ? $post["timeAgo"] : "Unknown time" ?>
                 </div>
             </div>
 
-            <h2><?= htmlspecialchars($post["TITLE"]) ?></h2>
-            <p><?= nl2br(htmlspecialchars($post["CONTENT"])) ?></p>
+            <h2><?= isset($post["TITLE"]) ? htmlspecialchars($post["TITLE"]) : "Untitled" ?></h2>
+            <p><?= isset($post["CONTENT"]) ? nl2br(htmlspecialchars($post["CONTENT"])) : "No content" ?></p>
             <hr>
 
             <!-- Display the comments section -->
             <div class="comments-section">
                 <?php foreach ($post["comments"] as $comment): ?>
                     <div class="comment">
-                        <strong><?= htmlspecialchars($comment["user"]) ?>:</strong>
-                        <div class="comment-content"><?= htmlspecialchars($comment["comment"]) ?></div>
+                        <strong><?= isset($comment["user"]) ? htmlspecialchars($comment["user"]) : "Anonymous" ?>:</strong>
+                        <div class="comment-content"><?= isset($comment["comment"]) ? htmlspecialchars($comment["comment"]) : "No comment content" ?></div>
                     </div>
                 <?php endforeach; ?>
                 <!-- New code: Comment text box -->
-                <div class="comment-box" onclick="showCommentBox(<?= $post["id"] ?>)">
+                <div class="comment-box" onclick="showCommentBox(<?= $post["id"] ?? 0 ?>)">
                     Write a comment...
                 </div>
                 <hr>
                 <!-- Like and Comment Icons -->
                 <div class="post-actions">
                     <div class="heart-container">
-                        <button class="heart-button" onclick="heartPost(this, <?= $post["id"] ?>)">&#10084;</button>
+                        <button class="heart-button" onclick="heartPost(this, <?= $post["id"] ?? 0 ?>)">&#10084;</button>
                     </div>
                     <div class="heart-count-container">
                         <span class="heart-count">0</span>

@@ -1,7 +1,10 @@
 <?php
 // Include the database connection file
 include "database.php";
-session_start();
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Step 1: User enters their username
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["username"])) {

@@ -1,26 +1,30 @@
 <?php
 include 'database.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 $Username = $_POST['Username'];
 $Password = $_POST['Password'];
 
-$sql = "SELECT Username, Password FROM accounts WHERE Username='$Username' AND Password='$Password'";
+$sql = "SELECT user_id, Username, Role FROM accounts WHERE Username='$Username' AND Password='$Password'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
 
-session_start();
+    session_start();
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['Username'] = $user['Username'];
-    
+    $_SESSION['Role'] = $user['Role'];
+
     $conn->close();
-    header("Location: success_log.html");
-} else{
-    header("Location: login.php?error=invalid"); exit;
+
+    // Redirect based on user role
+    if ($_SESSION['Role'] == 'admin') {
+        header("Location: admin_dashboard.php");
+    } else {
+        header("Location: dashboard.php");
+    }
+} else {
+    echo '<script>alert("Invalid username or password"); window.location.href = "login.php?error=invalid";</script>';
+    exit;
 }
 ?>

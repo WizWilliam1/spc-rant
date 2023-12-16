@@ -1,7 +1,17 @@
 <?php
 include 'database.php';
-session_start();
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+function getDashboardRedirect() {
+    // Check the user's role stored in the session and return the appropriate redirection
+    if ($_SESSION['Role'] == 'admin') {
+        return 'location.href=\'admin_dashboard.php\'';
+    } else {
+        return 'location.href=\'dashboard.php\'';
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,18 +34,19 @@ session_start();
 	<div class="spc_rant">SPC RANT</div>
 	<div class="rectangle"></div> 
 	<img src="d&n.png" class="clickable-icon" id="theme-toggle" onclick="myFunction()" alt="Toggle dark mode">
-	<button class="sign_in" role="button" onclick="<?php echo isset($_SESSION['Username']) ? 'location.href=\'dashboard.php\'' : 'location.href=\'login.php\'' ?>">
-		<?php
-            if (isset($_SESSION['Username'])) {
-                echo "Dashboard";
-            } else {
-                echo "Sign In";
-            }
-        ?>
-	</button>
+	<button class="sign_in" role="button" onclick="<?php echo isset($_SESSION['Username']) ? getDashboardRedirect() : 'location.href=\'login.php\'' ?>">
+   <?php
+      if (isset($_SESSION['Username'])) {
+         echo "Dashboard";
+      } else {
+         echo "Sign In";
+      }
+   ?>
+</button>
 	<button class="rant_now" role="button" onclick="location.href='rant.php'">Rant Now</button>
 	
 <script>window.onload = applySavedTheme;</script>
+
 </body>
 
 </html>

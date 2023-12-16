@@ -1,6 +1,9 @@
 <?php
 include 'database.php';
-session_start();
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (isset($_SESSION['Username'])) {
     $username = $_SESSION['Username'];

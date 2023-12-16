@@ -1,7 +1,11 @@
 <?php
 // Include the database connection file
 include "database.php";
-session_start();
+
+// Start a new session if one doesn't exist
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // If the request method is POST, process the email verification
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

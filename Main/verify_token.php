@@ -1,7 +1,10 @@
 <?php
 // Include the database connection file
 include "database.php";
-session_start();
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // If the request method is POST, process the token verification
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
